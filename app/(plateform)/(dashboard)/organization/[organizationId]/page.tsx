@@ -1,17 +1,25 @@
 // import { auth } from '@clerk/nextjs/server'
-import React from 'react'
 
-const OrganizationIdPage = ({params}:{params:{organizationId:string}}) => {
-    // const {userId, orgId} = auth()
+const OrganizationIdPage = ({
+  params,
+}: {
+  params: { organizationId: string };
+}) => {
+  // const {userId, orgId} = auth()
   return (
     <div>
-         Landing page : {params.organizationId}
-         <hr />
-         {/* userId:{userId} */}
-         <hr />
-         {/* orgId: {orgId} */}
+      <form action="">
+        <input
+          type="text"
+          id="titlte"
+          name="title"
+          required
+          placeholder="Enter a board title"
+          className="border-black border p-1 rounded-sm"
+        />
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default OrganizationIdPage
+export default OrganizationIdPage;

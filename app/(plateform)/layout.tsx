@@ -9,7 +9,9 @@ const PlateformLayout = ({
     children:React.ReactNode
 }) => {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+    signInForceRedirectUrl='/'
+    >
         {children}
     </ClerkProvider>
   )
