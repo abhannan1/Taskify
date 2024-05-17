@@ -1,4 +1,4 @@
-"user server"
+"use server"
 
 import { auth } from "@clerk/nextjs/server"
 import { InputType, ReturnType } from "./types"
@@ -8,39 +8,73 @@ import { createSafeAction } from "@/lib/create-safe-actions"
 import { CreateBoard } from "./schema"
 
 
-const handler = async (data:InputType) : Promise<ReturnType> =>{
-   const {userId} = auth()
+const handler = async (data: InputType): Promise<ReturnType> => {
+	const { userId, orgId } = auth();
 
-   if(!userId){
-    return{
-        error:"Unauthorized"
-    }
-   }
+	if (!userId || !orgId) {
+		return {
+			error: "Unauthorized",
+		};
+	}
 
-   const {title} = data
-   let board
+	// const canCreate = await hasAvailableCount();
+	// const isPro = await checkSubscription();
 
-   try {
+	// if (!canCreate && !isPro) {
+	// 	return {
+	// 		error: "Board limit reached for free boards. Please upgrade your plan.",
+	// 	};
+	// }
 
-    board = await prisma.board.create({
-        data:{
-            title
-        }
-    })
+	const { title, image } = data;
+	const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
+		image.split("|");
 
+	if (
+		!imageId ||
+		!imageThumbUrl ||
+		!imageFullUrl ||
+		!imageLinkHTML ||
+		!imageUserName
+	) {
+		return {
+			error: "Missing fields, Field to create Board",
+		};
+	}
 
-   } catch (error) {
-    return{
-        error:"Failed to create"
-    }
-   }
+	let board;
 
-   revalidatePath(`/board/${board.id}`)
-   return {
-       data:board
-   }
+	try {
+		board = await prisma.board.create({
+			data: {
+				title,
+				orgId,
+				imageId,
+				imageThumbUrl,
+				imageFullUrl,
+				imageLinkHTML,
+				imageUserName,
+			},
+		});
 
-}
+		// if (!isPro) {
+		// 	await incrementAvailableCount();
+		// }
 
+		// await createAuditLog({
+		// 	entityTitle: board.title,
+		// 	entityId: board.id,
+		// 	entityType: ENTITY_TYPE.BOARD,
+		// 	action: ACTION.CREATE,
+		// });
+	} catch (error) {
+		return {
+			error: `Field to create ${error}`,
+		};
+	}
 
-export const createBoard = createSafeAction(CreateBoard, handler)
+	revalidatePath(`/board/${board.id}`);
+	return { data: board };
+};
+
+export const createBoard = createSafeAction(CreateBoard, handler);

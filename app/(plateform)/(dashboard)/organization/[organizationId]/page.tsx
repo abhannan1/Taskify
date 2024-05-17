@@ -1,23 +1,29 @@
-// import { auth } from '@clerk/nextjs/server'
+
+import { Info } from "./_components/info";
+import { Separator } from "@/components/ui/separator";
+import BoardList from "./_components/board-list";
+import { Suspense } from "react";
+
+
 
 const OrganizationIdPage = ({
   params,
 }: {
   params: { organizationId: string };
 }) => {
-  // const {userId, orgId} = auth()
+
+
   return (
-    <div>
-      <form action="">
-        <input
-          type="text"
-          id="titlte"
-          name="title"
-          required
-          placeholder="Enter a board title"
-          className="border-black border p-1 rounded-sm"
+    <div className="w-full mb-20">
+        <Info/>
+        <Separator
+        className="my-4"
         />
-      </form>
+        <div className="px-2 md:px-4">
+          <Suspense fallback={<BoardList.Skeleton/>}>
+            <BoardList/>
+          </Suspense>
+        </div>
     </div>
   );
 };
