@@ -16,7 +16,7 @@ export interface Organization {
 
 interface NavItemProps {
   isActive: boolean;
-  isExpanded: boolean;
+  isExpanded: boolean | unknown;
   organization: Organization;
   onExpand: (id: string) => void;
 }

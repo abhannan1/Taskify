@@ -2,6 +2,7 @@ import prisma from '@/lib/db'
 import { auth } from '@clerk/nextjs/server'
 import { notFound, redirect } from 'next/navigation'
 import React from 'react'
+import BoardNavbar from './_components/board-navbar'
 
 
 export async function generateMetadata({params}:{params : {boardId : string}}) {
@@ -49,7 +50,9 @@ const BoardIdLayout =async ({children, params} : {children: React.ReactNode, par
     <div 
     className='relative h-full bg-no-repeat bg-cover bg-center '
     style={{backgroundImage:`url(${board.imageFullUrl})`}}
-    >
+    >   
+        <BoardNavbar board={board}/>
+        <div className='relative inset-0 bg-black/10'/>
         <main className='relative pt-28 h-full'>
             {children}
         </main>

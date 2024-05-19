@@ -8,15 +8,16 @@ type Action<TInput, TOutput> = (
 	data: TInput
 ) => Promise<ActionState<TInput, TOutput>>;
 
-interface UseActionOptions<TOutput> {
+interface UseActionOptions<TInput, TOutput> {
 	onSuccess?: (data: TOutput) => void;
 	onError?: (error: string) => void;
+	onFieldError?: (fieldErrors?: FieldErrors<TInput | undefined>) => void;
 	onComplete?: () => void;
 }
 
 export const useAction = <TInput, TOutput>(
 	action: Action<TInput, TOutput>,
-	options: UseActionOptions<TOutput>
+	options: UseActionOptions<TInput, TOutput>
 ) => {
 	const [fieldErrors, setFieldErrors] =
 		useState<FieldErrors<TInput | undefined>>(undefined);
@@ -35,6 +36,10 @@ export const useAction = <TInput, TOutput>(
 				}
 
 				setFieldErrors(result.fieldErrors);
+
+				if (result.fieldErrors) {
+					options.onFieldError?.(result.fieldErrors);
+				}
 
 				if (result.error) {
 					setError(result.error);

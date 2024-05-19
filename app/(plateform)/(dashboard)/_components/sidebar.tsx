@@ -23,7 +23,7 @@ const SideBar = ({storageKey = "t-sidebar-state"} : SidebarProps) => {
     })
     const {organization:activeOrganization, isLoaded:isLoadedOrg} = useOrganization()
 
-    const defaultAccordianValue: string[] = Object.keys(expanded)
+    const defaultAccordionValue: string[] = Object.keys(expanded)
     .reduce((acc:string[], key:string)=>{
         if(expanded[key]){
             acc.push(key)
@@ -82,7 +82,7 @@ const SideBar = ({storageKey = "t-sidebar-state"} : SidebarProps) => {
 
 			<Accordion
 				type="multiple"
-				defaultValue={defaultAccordianValue}
+				defaultValue={defaultAccordionValue}
 				className="space-y-2"
 			>
 				{userMemberships.data?.map(({ organization }) => (

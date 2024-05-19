@@ -69,7 +69,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 		// });
 	} catch (error) {
 		return {
-			error: `Field to create ${error}`,
+			error: `Field to create!`,
 		};
 	}
 
