@@ -17,7 +17,6 @@ interface FormInputProps {
 	errors?: Record<string, string[] | undefined>;
 	className?: string;
 	defaultValue?: string;
-	pendingMessage?: string;
 	onBlur?: () => void;
 }
 
@@ -34,7 +33,6 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
 			className,
 			defaultValue = "",
 			onBlur,
-			pendingMessage
 		} : FormInputProps ,
 		ref
 	) => {
@@ -56,7 +54,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
 
 					<Input
 						onBlur={onBlur}
-						defaultValue={pending ? pendingMessage : defaultValue}
+						defaultValue={defaultValue}
 						required={required}
 						ref={ref}
 						name={id}

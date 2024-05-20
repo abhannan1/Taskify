@@ -1,3 +1,5 @@
+"use client"
+
 import { updateList } from '@/actions/update-list';
 import { FormInput } from '@/components/form/form-input';
 import { useAction } from '@/hooks/use-action';
@@ -7,6 +9,7 @@ import { Edit2Icon } from 'lucide-react';
 import React, { ElementRef, useRef, useState } from 'react'
 import { toast } from 'sonner';
 import { useEventListener } from 'usehooks-ts';
+import { ListOptions } from './list-options';
 
 interface ListHeaderProps{
     data:List
@@ -79,7 +82,7 @@ const ListHeader = ({data}: ListHeaderProps) => {
   return (
 		<div
 			className={cn(
-				"py-2 px-2 text-white flex justify-between items-start gap-x-2 bg-slate-600",
+				"py-2 px-2 text-white flex justify-between items-start gap-x-2 bg-slate-600 ",
 			)}
 		>
 			{isEditing ? (
@@ -107,7 +110,6 @@ const ListHeader = ({data}: ListHeaderProps) => {
 						onBlur={onBlur}
 						id="title"
 						placeholder= "Enter list title..."
-                        pendingMessage='updating...'
 						defaultValue={title}
 						className="text-base px-[7px] py-1 h-6 text-black font-medium border-transparent hover:border-input/50 focus:border-input transition truncate bg-transparent focus:bg-white focus-visible:ring-offset-0 focus-visible:ring-1"
 					/>
@@ -122,6 +124,10 @@ const ListHeader = ({data}: ListHeaderProps) => {
 					<Edit2Icon className="inline w-2 h-2 ml-2" />
 				</div>
 			)}
+            <ListOptions
+                data={data}
+                onAddCard = {()=>{}} 
+            />
 		</div>
 	);
 };
