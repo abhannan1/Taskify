@@ -5,6 +5,7 @@ import { CardForm } from './card-form';
 import { cn } from '@/lib/utils';
 import CardItem from './card-item';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
+import CardModal from '@/components/modals/card-modal';
 
 interface ListItemProps{
     data: ListWithCards;
@@ -52,11 +53,13 @@ const ListItem = ({data, index}: ListItemProps) => {
 									)}
               >
 									{data.cards.map((card, index) => (
-										<CardItem
-											key={card.id}
-											data={card}
-											index={index}
-                      />
+                  
+                      <CardItem
+                        key={card.id}
+                        data={card}
+                        index={index}
+                        />
+    
                     ))}
                     {provided.placeholder}
               </ol>
