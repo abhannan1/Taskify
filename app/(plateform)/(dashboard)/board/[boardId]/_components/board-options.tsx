@@ -31,7 +31,7 @@ const BoardOptions = ({id}: BoardOptionsProps) => {
 
   return (
     <div
-    className='ml-auto'
+    className='ml-auto group'
     >
         <Popover>
             <PopoverTrigger asChild>

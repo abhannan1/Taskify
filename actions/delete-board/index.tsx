@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { createAuditLog } from "@/lib/create-audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
+import { decreaseAvailableCount } from "@/lib/org-limit"
 
 
 
@@ -32,6 +33,8 @@ const handler = async (data: InputType): Promise<ReturnType> =>{
                 orgId
             }
         })
+        
+        await decreaseAvailableCount()
 
         await createAuditLog({
 			entityId:board.id,
@@ -39,6 +42,7 @@ const handler = async (data: InputType): Promise<ReturnType> =>{
 			entityTitle:board.title,
 			action:ACTION.DELETE,
 		})
+
         
     } catch (error) {
         return {

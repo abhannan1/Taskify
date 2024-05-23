@@ -40,7 +40,7 @@ const FormPopover = ({
           },
           onError: (error) => {
           console.error(error);
-          toast.error("Failed to add board")
+          toast.error(error)
           },
           onComplete:()=>{
             console.log("done")

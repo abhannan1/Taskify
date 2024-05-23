@@ -8,6 +8,7 @@ import { createSafeAction } from "@/lib/create-safe-actions"
 import { CreateBoard } from "./schema"
 import { createAuditLog } from "@/lib/create-audit-log"
 import { ACTION, ENTITY_TYPE } from "@prisma/client"
+import { hasAvailableCount, incrementAvailableCount } from "@/lib/org-limit"
 
 
 const handler = async (data: InputType): Promise<ReturnType> => {
@@ -19,14 +20,18 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 		};
 	}
 
-	// const canCreate = await hasAvailableCount();
+	const canCreate = await hasAvailableCount();
 	// const isPro = await checkSubscription();
 
-	// if (!canCreate && !isPro) {
-	// 	return {
-	// 		error: "Board limit reached for free boards. Please upgrade your plan.",
-	// 	};
-	// }
+	if (
+		!canCreate 
+		// && 
+		// !isPro
+	) {
+		return {
+			error: "Board limit reached for free boards. Please upgrade your plan.",
+		};
+	}
 
 	const { title, image } = data;
 	const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
@@ -58,9 +63,10 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 				imageUserName,
 			},
 		});
+		
 
 		// if (!isPro) {
-		// 	await incrementAvailableCount();
+			await incrementAvailableCount();
 		// }
 
 		await createAuditLog({
