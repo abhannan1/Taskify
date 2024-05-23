@@ -9,6 +9,7 @@ export async function generateMetadata (){
   return{
     title: startCase(orgSlug || "organization")
   }
+
 } 
 
 

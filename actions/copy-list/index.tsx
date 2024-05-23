@@ -6,7 +6,6 @@ import { CopyList } from "./schema";
 import { InputType, ReturnType } from "./types";
 import prisma from "@/lib/db";
 import { createSafeAction } from "@/lib/create-safe-actions";
-import { title } from "process";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
