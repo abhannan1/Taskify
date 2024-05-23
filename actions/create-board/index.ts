@@ -6,6 +6,8 @@ import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { createSafeAction } from "@/lib/create-safe-actions"
 import { CreateBoard } from "./schema"
+import { createAuditLog } from "@/lib/create-audit-log"
+import { ACTION, ENTITY_TYPE } from "@prisma/client"
 
 
 const handler = async (data: InputType): Promise<ReturnType> => {
@@ -61,12 +63,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 		// 	await incrementAvailableCount();
 		// }
 
-		// await createAuditLog({
-		// 	entityTitle: board.title,
-		// 	entityId: board.id,
-		// 	entityType: ENTITY_TYPE.BOARD,
-		// 	action: ACTION.CREATE,
-		// });
+		await createAuditLog({
+			entityTitle: board.title,
+			entityId: board.id,
+			entityType: ENTITY_TYPE.BOARD,
+			action: ACTION.CREATE,
+		});
+		
 	} catch (error) {
 		return {
 			error: `Field to create!`,

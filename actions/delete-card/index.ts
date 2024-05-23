@@ -6,6 +6,8 @@ import { DeleteCard } from "./schema";
 import { InputType, ReturnType } from "./types";
 import { createSafeAction } from "@/lib/create-safe-actions";
 import prisma from "@/lib/db";
+import { createAuditLog } from "@/lib/create-audit-log";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -29,6 +31,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 				},
 			},
 		});
+
+		await createAuditLog({
+			entityId:card.id,
+			entityType:ENTITY_TYPE.CARD,
+			entityTitle:card.title,
+			action:ACTION.DELETE,
+		})
 
 	} catch (error) {
 		return {

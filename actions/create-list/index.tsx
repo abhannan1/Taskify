@@ -6,6 +6,8 @@ import { CreateList } from "./schema"
 import { auth } from "@clerk/nextjs/server"
 import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache"
+import { ACTION, ENTITY_TYPE } from "@prisma/client"
+import { createAuditLog } from "@/lib/create-audit-log"
 
 
 
@@ -51,13 +53,19 @@ const handler = async (data: InputType): Promise<ReturnType> =>{
                 order:newOrder
             }
         })
+    
+        await createAuditLog({
+            entityId:list.id,
+            entityType:ENTITY_TYPE.LIST,
+            entityTitle:list.title,
+            action:ACTION.CREATE,
+        })
         
     } catch (error) {
         return {
             error:"Failed to create list"
         }
     }
-
 
     revalidatePath(`/board/${boardId}`);
     return{

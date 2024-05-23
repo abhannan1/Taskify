@@ -7,6 +7,8 @@ import { auth } from "@clerk/nextjs/server"
 import prisma from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { createAuditLog } from "@/lib/create-audit-log"
+import { ACTION, ENTITY_TYPE } from "@prisma/client"
 
 
 
@@ -30,6 +32,13 @@ const handler = async (data: InputType): Promise<ReturnType> =>{
                 orgId
             }
         })
+
+        await createAuditLog({
+			entityId:board.id,
+			entityType:ENTITY_TYPE.BOARD,
+			entityTitle:board.title,
+			action:ACTION.DELETE,
+		})
         
     } catch (error) {
         return {
