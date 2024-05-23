@@ -1,14 +1,5 @@
 "use client";
 
-interface FormPopoverProps {
-	children: React.ReactNode;
-	side?: "top" | "bottom" | "left" | "right";
-	align?: "center" | "start" | "end";
-	sideOffset?: number;
-}
-
-
-
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import React, { ElementRef, useRef } from 'react'
 import { Button } from '../ui/button';
@@ -20,6 +11,16 @@ import { createBoard } from '@/actions/create-board';
 import { toast } from 'sonner';
 import FormPicker from './form-picker';
 import { useRouter } from 'next/navigation';
+import { useProModal } from '@/hooks/use-pro-modal';
+
+interface FormPopoverProps {
+	children: React.ReactNode;
+	side?: "top" | "bottom" | "left" | "right";
+	align?: "center" | "start" | "end";
+	sideOffset?: number;
+}
+
+
 
 const FormPopover = ({
     children,
@@ -27,23 +28,19 @@ const FormPopover = ({
     align,
     sideOffset = 0
 } : FormPopoverProps) => {
-    
+    const proModal = useProModal();
     const closeRef = useRef<ElementRef<"button">>(null)
     const router = useRouter()
 
     const {execute, fieldErrors} = useAction(createBoard, {
         onSuccess: (data) => {
-          console.log(data, "SUCCESS!")
           toast.success("Board Added")
           closeRef.current?.click()
           router.push(`/board/${data.id}`)
           },
           onError: (error) => {
-          console.error(error);
           toast.error(error)
-          },
-          onComplete:()=>{
-            console.log("done")
+          proModal.onOpen()
           }
       })
     

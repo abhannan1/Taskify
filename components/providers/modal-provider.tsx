@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import CardModal from '@/components/modals/card-modal'
+import { ProModal } from '@/components/modals/pro-modal'
 
-const ModalPRovider = () => {
+const ModalProvider = () => {
 
     const [isMounted, setIsMounted] = useState<boolean>(false)
 
@@ -17,10 +18,12 @@ const ModalPRovider = () => {
     }
 
   return (
-
+    <>
     <CardModal/>
+    <ProModal/>
+    </>
 
 )
 }
 
-export default ModalPRovider
+export default ModalProvider

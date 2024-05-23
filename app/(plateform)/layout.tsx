@@ -1,7 +1,7 @@
 import { ClerkProvider } from '@clerk/nextjs'
 import React from 'react'
 import {Toaster} from "sonner"
-import ModalPRovider from '@/components/providers/modal-provider'
+import ModalProvider from '@/components/providers/modal-provider'
 import QueryProvider from '@/components/providers/query-provider'
 
 const PlateformLayout = ({
@@ -14,8 +14,8 @@ const PlateformLayout = ({
     signInForceRedirectUrl='/'
     >
       <QueryProvider>
-        <ModalPRovider/>
         <Toaster position='bottom-center' richColors closeButton />
+        <ModalProvider/>
         {children}
       </QueryProvider>
     </ClerkProvider>
