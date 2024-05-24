@@ -9,10 +9,12 @@ import { HelpCircle, User2 } from "lucide-react"
 import Link from "next/link";
 import { redirect } from "next/navigation"
 import BoardOptions from "../../../board/[boardId]/_components/board-options"
+import { checkSubscription } from "@/lib/subscription"
 
 
 const BoardList = async() => {
     const {orgId} = auth()
+    const isPro = await checkSubscription()
 
     if(!orgId){
 		return redirect("/select-org");
@@ -67,7 +69,7 @@ const BoardList = async() => {
                 >
                 <p className="text-sm">Create new board</p>
                 <span className="text-xs">
-                {`${MAX_FREE_BOARDS - availableCounts} remaining`}
+                {isPro ? "Unlimited" : `${MAX_FREE_BOARDS - availableCounts} remaining`}
                 </span>
                 <Hint
                 description={`Free Workspaces can gave up to 5 open boards. For unlimited workspaces, please upgrade to Pro.`}

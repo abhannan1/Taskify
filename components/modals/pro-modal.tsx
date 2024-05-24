@@ -4,9 +4,25 @@ import { useProModal } from "@/hooks/use-pro-modal"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useAction } from "@/hooks/use-action";
+import { stripeRedirect } from "@/actions/stripe-redirect";
+import { toast } from "sonner";
 
 export const ProModal = () => {
     const proModal = useProModal();
+
+	const {execute, isLoading} = useAction(stripeRedirect,{
+		onSuccess:(data)=>{
+			window.location.href = data
+		},
+		onError: (error) => {
+			toast.error(error)
+		 }
+	})
+
+	const onClick = () => {
+		execute({})
+	 }
 
     return(
         <Dialog
@@ -38,8 +54,8 @@ export const ProModal = () => {
 						</ul>
 					</div>
 					<Button
-						// disabled={isLoading}
-						// onClick={onClick}
+						disabled={isLoading}
+						onClick={onClick}
 						className="w-full"
 						variant="primary"
 					>

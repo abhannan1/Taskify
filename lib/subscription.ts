@@ -5,7 +5,7 @@ import prisma from "./db";
 const DAY_IN_MS = 84_400_000;
 
 
-const checkSubsription = async () => {
+export const checkSubscription = async () => {
     const {orgId} = auth()
 
     if(!orgId){
