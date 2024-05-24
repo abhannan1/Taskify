@@ -66,9 +66,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 		});
 		
 
-		// if (!isPro) {
+		if (!isPro) {
 			await incrementAvailableCount();
-		// }
+		}
 
 		await createAuditLog({
 			entityTitle: board.title,

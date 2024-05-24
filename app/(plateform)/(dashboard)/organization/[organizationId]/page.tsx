@@ -3,19 +3,22 @@ import { Info } from "./_components/info";
 import { Separator } from "@/components/ui/separator";
 import BoardList from "./_components/board-list";
 import { Suspense } from "react";
+import { checkSubscription } from "@/lib/subscription";
 
 
 
-const OrganizationIdPage = ({
+const OrganizationIdPage = async({
   params,
 }: {
   params: { organizationId: string };
 }) => {
 
+  const isPro = await checkSubscription();
+
 
   return (
     <div className="w-full mb-20">
-        <Info/>
+        <Info isPro={isPro}/>
         <Separator
         className="my-4"
         />

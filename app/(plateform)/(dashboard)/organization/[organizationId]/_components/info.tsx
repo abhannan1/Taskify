@@ -7,10 +7,10 @@ import Image from 'next/image'
 
 
 interface InfoProps{
-
+    isPro:boolean;
 }
 
-export const Info = () => {
+export const Info = ({isPro} : InfoProps) => {
     const {organization, isLoaded} = useOrganization()
 
 
@@ -38,7 +38,7 @@ export const Info = () => {
             </p>
             <div className='flex items-center text-xs text-muted-foreground"'>
                 <CreditCard  className="h-3 w-3 mr-1"/>
-                <span>Free</span>
+                <span>{isPro ? "Pro" : "Free" } </span>
             </div>
         </div>
     </div>
