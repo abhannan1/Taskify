@@ -15,7 +15,7 @@ const Logo = () => {
     <Link href='/'>
       <div className="hover:opacity-70 transition items-center gap-x-2 hidden md:flex">
         <Image 
-        src="/logo.PNG" 
+        src="/logo.png" 
         alt="Logo" 
         width={45}
         height={40}
